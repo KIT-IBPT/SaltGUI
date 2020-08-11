@@ -2,7 +2,7 @@
 
 import {Character} from "./Character.js";
 import {Documentation} from "./Documentation.js";
-import {DropDownMenu} from "./DropDown.js";
+import {DropDownMenuCmd} from "./DropDownCmd.js";
 import {Output} from "./output/Output.js";
 import {ParseCommandLine} from "./ParseCommandLine.js";
 import {Router} from "./Router.js";
@@ -18,13 +18,14 @@ export class CommandBox {
     this.api = pApi;
 
     const cmdbox = document.getElementById("cmd-box");
-    this.cmdmenu = new DropDownMenu(cmdbox);
+    this.cmdmenu = new DropDownMenuCmd(cmdbox);
 
-    this.documentation = new Documentation(this.router, this);
     this._registerCommandBoxEventListeners();
 
     RunType.createMenu();
     TargetType.createMenu();
+
+    this.documentation = new Documentation(pRouter, this);
 
     const manualRun = document.getElementById("popup-run-command");
     Utils.addTableHelp(manualRun, "Click for help", "bottom-center");
@@ -116,7 +117,7 @@ export class CommandBox {
       CommandBox.templateTmplMenu._templateCategory = null;
       return;
     }
-    const menu = new DropDownMenu(titleElement);
+    const menu = new DropDownMenuCmd(titleElement);
     menu.menuButton.classList.add("small-button-left");
     CommandBox.templateTmplMenu = menu;
     CommandBox.templateTmplMenu._templateCategory = null;
@@ -129,7 +130,7 @@ export class CommandBox {
       if (!description) {
         description = "(" + key + ")";
       }
-      menu.addMenuItem(
+      menu.addMenuItemCmd(
         () => CommandBox._templateTmplMenuItemTitle(template),
         () => {
           CommandBox._applyTemplate(template);
@@ -266,7 +267,7 @@ export class CommandBox {
       TargetType.setTargetType(targetType);
     } else {
       // not in the template, revert to default
-      TargetType.setTargetTypeDefault();
+      TargetType.setTargetType(null);
     }
 
     if (template.target) {
@@ -327,7 +328,7 @@ export class CommandBox {
     const commandField = document.getElementById("command");
     const commandValue = commandField.value;
 
-    const targetType = TargetType.menuTargetType._value;
+    const targetType = TargetType.menuTargetType.getValue();
 
     const patWhitespaceAll = /\s/g;
     const commandValueNoTabs = commandValue.replace(patWhitespaceAll, " ");
@@ -482,7 +483,7 @@ export class CommandBox {
 
     // reset to default, so that its value is initially hidden
     RunType.setRunTypeDefault();
-    TargetType.setTargetTypeDefault();
+    TargetType.setTargetType(null);
 
     if (Router.currentPage) {
       Router.currentPage.refreshPage();
