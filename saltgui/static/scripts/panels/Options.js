@@ -50,6 +50,10 @@ export class OptionsPanel extends Panel {
         "datetime-representation", "saltgui", "utc",
         [["representation", "utc", "local", "utc-localtime:utc+localtime", "local-utctime:local+utctime"]]
       ],
+      [
+        "full-return", "saltgui", "false",
+        [["full-return", "true", "false"]]
+      ],
       ["hide-jobs", "saltgui", "(none)"],
 
       /* show-jobs is not in the alphabetic order, but keep it close to hide-jobs */
@@ -148,6 +152,10 @@ export class OptionsPanel extends Panel {
           } else if (pName === "tooltip-mode") {
             radio.addEventListener("change", () => {
               this._newToolTipMode();
+            });
+          } else if (pName === "full-return") {
+            radio.addEventListener("change", () => {
+              this._newFullReturn();
             });
           }
           tdValue.appendChild(radio);
@@ -451,5 +459,16 @@ export class OptionsPanel extends Panel {
     const toolTipModeTd = this.div.querySelector("#option-tooltip-mode-value");
     toolTipModeTd.innerText = value;
     Utils.setStorageItem("session", "tooltip_mode", value);
+  }
+
+  _newFullReturn () {
+    let value = "";
+    /* eslint-disable curly */
+    if (this._isSelected("full-return", "full-return", "false")) value = "false";
+    if (this._isSelected("full-return", "full-return", "true")) value = "true";
+    /* eslint-enable curly */
+    const fullReturnTd = this.div.querySelector("#option-full-return-value");
+    fullReturnTd.innerText = value;
+    Utils.setStorageItem("session", "full_return", value);
   }
 }
