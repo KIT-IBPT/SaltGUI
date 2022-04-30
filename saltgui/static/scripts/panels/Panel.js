@@ -518,23 +518,6 @@ export class Panel {
     return ipv4[0];
   }
 
-  static _restoreClickToCopy (pTarget) {
-    Utils.addToolTip(pTarget, "Click to copy");
-  }
-
-  static _copyAddress (pTarget) {
-    const selection = window.getSelection();
-    const range = document.createRange();
-
-    range.selectNodeContents(pTarget.firstChild);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    document.execCommand("copy");
-    selection.removeAllRanges();
-
-    Utils.addToolTip(pTarget, "Copied!");
-  }
-
   updateMinion (pMinionData, pMinionId, prefixes) {
 
     const minionTr = this.getElement(Utils.getIdFromMinionId(pMinionId));
@@ -558,14 +541,7 @@ export class Panel {
       }
       addressTd.classList.add("address");
       addressTd.setAttribute("tabindex", -1);
-      addressSpan.addEventListener("click", (pClickEvent) => {
-        Panel._copyAddress(addressSpan);
-        pClickEvent.stopPropagation();
-      });
-      addressSpan.addEventListener("mouseout", () => {
-        Panel._restoreClickToCopy(addressSpan);
-      });
-      Utils.addToolTip(addressSpan, "Click to copy");
+      Panel.addClickToCopy(addressSpan);
       minionTr.appendChild(addressTd);
     } else {
       const accepted = Utils.createTd("status", "accepted");
@@ -817,5 +793,33 @@ export class Panel {
     img.setAttribute("onerror", "this.onerror=null; this.title='Unknown image, please report to SaltGUI team that image \\'" + pngName + "\\' is missing'; this.src='/static/images/UNKNOWN.png'");
     img.classList.add("prefiximage");
     pElem.prepend(img);
+  }
+
+  static addClickToCopy (pElem) {
+    // show element as copyable
+    pElem.style.color = "#3f51b5";
+    pElem.style.cursor = "copy";
+    Utils.addToolTip(pElem, "Click to copy");
+
+    pElem.addEventListener("click", (pClickEvent) => {
+      const selection = window.getSelection();
+      const range = document.createRange();
+
+      range.selectNodeContents(pElem.firstChild);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand("copy");
+      selection.removeAllRanges();
+
+      Utils.addToolTip(pElem, "Copied!");
+
+      pClickEvent.stopPropagation();
+    });
+
+    // tooltip changed to "Copied!"
+    // restore it when the mouse moves out
+    pElem.addEventListener("mouseout", () => {
+      Utils.addToolTip(pElem, "Click to copy");
+    });
   }
 }
