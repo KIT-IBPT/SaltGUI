@@ -222,7 +222,8 @@ export class JobPanel extends Panel {
       this.warningField.innerText = Character.INFORMATION_SIGN + Character.NO_BREAK_SPACE + "RUNNER jobs are not associated with minions";
     } else {
       minions = Object.keys(this.result);
-      this.warningField.innerText = Character.WARNING_SIGN + Character.NO_BREAK_SPACE + "minion list is missing in the result, thus cannot determine missing output";
+      this.warningField.innerText = "minion list is missing in the result, thus cannot determine missing output";
+      Panel.addPrefixIcon(this.warningField, Character.WARNING_SIGN);
     }
     let initialStatus;
     if (info.Minions === undefined || Object.keys(info.Result).length >= info.Minions.length) {

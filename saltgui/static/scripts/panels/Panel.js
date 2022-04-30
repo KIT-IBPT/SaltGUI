@@ -803,4 +803,14 @@ export class Panel {
       Utils.hideShowTableSearchBar(this.searchBox, this.table, "hide");
     }
   }
+
+  static addPrefixIcon (pElem, pIconChar) {
+    // starts with a TD, but there may be a SPAN involved
+    if (pElem.querySelector("span")) {
+      pElem = pElem.querySelector("span");
+    }
+    if (!pElem.innerText.startsWith(pIconChar)) {
+      pElem.innerText = pIconChar + pElem.innerText;
+    }
+  }
 }
