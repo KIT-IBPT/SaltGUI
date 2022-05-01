@@ -78,7 +78,7 @@ export class OptionsPanel extends Panel {
   }
 
   _addOptionRow (pName, pCategory, pDefaultValue, pValues = null) {
-    const tr = document.createElement("tr");
+    const tr = Utils.createTr();
     tr.id = "option-" + pName;
     tr.dataset.defaultValue = pDefaultValue;
 
@@ -94,16 +94,16 @@ export class OptionsPanel extends Panel {
       const span = Utils.createSpan("", "", "option-" + pName + "-value");
       tdValue.appendChild(span);
 
-      const br1 = document.createElement("br");
+      const br1 = Utils.createBr();
       tdValue.appendChild(br1);
 
-      const br2 = document.createElement("br");
+      const br2 = Utils.createBr();
       tdValue.appendChild(br2);
 
       let addSep = false;
       for (const row of pValues) {
         if (addSep) {
-          const br3 = document.createElement("br");
+          const br3 = Utils.createBr();
           tdValue.appendChild(br3);
         }
         addSep = true;
@@ -116,7 +116,7 @@ export class OptionsPanel extends Panel {
             itemLabel = row[i].substring(colonPos + 1);
           }
 
-          const radio = document.createElement("input");
+          const radio = Utils.createElem("input");
           radio.id = "option-" + pName + "-value-" + row[0] + "-" + itemValue;
           radio.type = "radio";
           radio.name = "option-" + pName + "-value-" + row[0];
@@ -152,7 +152,7 @@ export class OptionsPanel extends Panel {
           }
           tdValue.appendChild(radio);
 
-          const label = document.createElement("label");
+          const label = Utils.createElem("label");
           label.htmlFor = radio.id;
           label.innerText = itemLabel;
           label.style.whiteSpace = "nowrap";

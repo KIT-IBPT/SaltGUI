@@ -30,7 +30,7 @@ export class JobsSummaryPanel extends JobsPanel {
   /* eslint-enable class-methods-use-this */
 
   addJob (job) {
-    const tr = document.createElement("tr");
+    const tr = Utils.createTr();
     tr.id = Utils.getIdFromJobId(job.id);
 
     const td = Utils.createTd();
