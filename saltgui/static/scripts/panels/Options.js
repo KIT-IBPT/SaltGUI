@@ -152,9 +152,8 @@ export class OptionsPanel extends Panel {
           }
           tdValue.appendChild(radio);
 
-          const label = Utils.createElem("label");
+          const label = Utils.createElem("label", "", itemLabel);
           label.htmlFor = radio.id;
-          label.innerText = itemLabel;
           label.style.whiteSpace = "nowrap";
           tdValue.appendChild(label);
         }

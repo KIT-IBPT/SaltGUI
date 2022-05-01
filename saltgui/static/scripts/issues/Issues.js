@@ -49,17 +49,11 @@ export class Issues {
 
     const theTr = Utils.createTr();
 
-    // const keyTd = Utils.createTd();
-    // keyTd.innerText = pCatName + "-" + pIssueName;
-    // keyTd.classList.add("key");
-    // theTr.appendChild(keyTd);
-
     const menu = new DropDownMenu(theTr, true);
     theTr.menu = menu;
 
     const descTd = Utils.createTd();
-    const descSpan = Utils.createSpan();
-    descSpan.classList.add("desc");
+    const descSpan = Utils.createSpan("desc");
     descTd.appendChild(descSpan);
     theTr.appendChild(descTd);
 
@@ -120,9 +114,7 @@ export class Issues {
   onGetIssues (pPanel, pTitle) {
     this.api = pPanel.api;
 
-    const msg = Utils.createDiv();
-    msg.classList.add("msg");
-    msg.innerText = "(loading info for " + pTitle + ")";
+    const msg = Utils.createDiv("msg", "(loading info for " + pTitle + ")");
     pPanel.msg2.appendChild(msg);
 
     return msg;
