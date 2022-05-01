@@ -1,4 +1,4 @@
-/* global config document window */
+/* global config */
 
 import {Character} from "../Character.js";
 import {CommandBox} from "../CommandBox.js";
